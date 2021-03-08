@@ -25,20 +25,33 @@ def main():
 
     image = Image.open("./images/tight@1920x_transparent.png")
     st.sidebar.image(image, use_column_width=True)
+    st.sidebar.markdown("Check out the package on [Github](https://github.com/cdpierse/transformers-interpret)")
     models = {
+        "mrm8488/bert-mini-finetuned-age_news-classification": "BERT-Mini finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
+        "nateraw/bert-base-uncased-ag-news": "BERT finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
         "distilbert-base-uncased-finetuned-sst-2-english": "DistilBERT model finetuned on SST-2 sentiment analysis task. Predicts positive/negative sentiment.",
         "ProsusAI/finbert": "BERT model finetuned to predict sentiment of financial text. Finetuned on Financial PhraseBank data. Predicts positive/negative/neutral.",
         "sampathkethineedi/industry-classification": "DistilBERT Model to classify a business description into one of 62 industry tags.",
-        "mrm8488/bert-mini-finetuned-age_news-classification": "BERT-Mini finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
-        "nateraw/bert-base-uncased-ag-news": "BERT finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
         "MoritzLaurer/policy-distilbert-7d": "DistilBERT model finetuned to classify text into one of seven political categories.",
         "MoritzLaurer/covid-policy-roberta-21": "(Under active development ) RoBERTA model finetuned to identify COVID policy measure classes ",
         "aychang/roberta-base-imdb": "RoBERTA model finetuned on IMDB dataset to classify text sentiment. Predicts pos/neg.",
+        "mrm8488/bert-tiny-finetuned-sms-spam-detection": "Tiny bert model finetuned for spam detection. 0 == not spam, 1 == spam"
     }
     model_name = st.sidebar.selectbox(
         "Choose a classification model", list(models.keys())
     )
     model, tokenizer = get_model_tokenizer(model_name)
+    cls_explainer = SequenceClassificationExplainer(
+        "", model=model, tokenizer=tokenizer
+    )
+    if cls_explainer.accepts_position_ids:
+        emb_type_name = st.sidebar.selectbox(
+            "Choose embedding type for attribution.", ["word", "position"]
+        )
+        if emb_type_name == "word":
+            emb_type_num = 0
+        if emb_type_name == "position":
+            emb_type_num = 1
 
     explanation_classes = ["predicted"] + list(model.config.label2id.keys())
     explanation_class_choice = st.sidebar.selectbox(
@@ -55,13 +68,16 @@ def main():
     )
 
     if st.button("Interpret Text"):
-        cls_explainer = SequenceClassificationExplainer(text, model, tokenizer)
         st.text("Output")
         with st.spinner("Intepreting your text (This may take some time)"):
             if explanation_class_choice != "predicted":
-                attr = cls_explainer(class_name=explanation_class_choice)
+                attr = cls_explainer(
+                    text,
+                    class_name=explanation_class_choice,
+                    embedding_type=emb_type_num,
+                )
             else:
-                attr = cls_explainer()
+                attr = cls_explainer(text, embedding_type=emb_type_num)
 
         if attr:
             word_attributions_expander = st.beta_expander(
