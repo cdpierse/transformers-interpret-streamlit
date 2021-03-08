@@ -1,6 +1,6 @@
 # Transformer Interpret Streamlit App
 
-- Simple streamlit app to demonstrate some of the features of Transformers Interpret.
+- Simple streamlit app to demonstrate some of the features of [Transformers Interpret](https://github.com/cdpierse/transformers-interpret).
 - View the word attributions of 7+ text classification HuggingFace Transformer models.
 - View the attributions w.r.t to any class/label in a model.
 
