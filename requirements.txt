@@ -1,4 +1,4 @@
 streamlit==0.77.0
-transformers_interpret==0.1.11
+transformers_interpret>=0.2.0
 pandas==1.0.3
 transformers==4.3.2
