@@ -5,7 +5,7 @@
 - Simple streamlit app to demonstrate some of the features of [Transformers Interpret](https://github.com/cdpierse/transformers-interpret).
 - View the word attributions of 7+ text classification HuggingFace Transformer models.
 - View the attributions w.r.t to any class/label in a model.
-
+- View attributions w.r.t to both word and position embeddings for a model
 ## Install
 
 `pip install -r requirements.txt `
