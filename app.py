@@ -27,6 +27,9 @@ def main():
     st.sidebar.image(image, use_column_width=True)
     st.sidebar.markdown("Check out the package on [Github](https://github.com/cdpierse/transformers-interpret)")
     models = {
+        "textattack/bert-base-uncased-rotten-tomatoes": "",
+        "textattack/roberta-base-rotten-tomatoes": "",
+        "textattack/distilbert-base-uncased-rotten-tomatoes": "",
         "mrm8488/bert-mini-finetuned-age_news-classification": "BERT-Mini finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
         "nateraw/bert-base-uncased-ag-news": "BERT finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
         "distilbert-base-uncased-finetuned-sst-2-english": "DistilBERT model finetuned on SST-2 sentiment analysis task. Predicts positive/negative sentiment.",
@@ -34,8 +37,8 @@ def main():
         "sampathkethineedi/industry-classification": "DistilBERT Model to classify a business description into one of 62 industry tags.",
         "MoritzLaurer/policy-distilbert-7d": "DistilBERT model finetuned to classify text into one of seven political categories.",
         "MoritzLaurer/covid-policy-roberta-21": "(Under active development ) RoBERTA model finetuned to identify COVID policy measure classes ",
-        "aychang/roberta-base-imdb": "RoBERTA model finetuned on IMDB dataset to classify text sentiment. Predicts pos/neg.",
-        "mrm8488/bert-tiny-finetuned-sms-spam-detection": "Tiny bert model finetuned for spam detection. 0 == not spam, 1 == spam"
+        "mrm8488/bert-tiny-finetuned-sms-spam-detection": "Tiny bert model finetuned for spam detection. 0 == not spam, 1 == spam",
+        "lannelin/bert-imdb-1hidden": "Bert for IMBD with a single hidden layer"
     }
     model_name = st.sidebar.selectbox(
         "Choose a classification model", list(models.keys())
@@ -52,6 +55,8 @@ def main():
             emb_type_num = 0
         if emb_type_name == "position":
             emb_type_num = 1
+    else:
+        emb_type_num = 0
 
     explanation_classes = ["predicted"] + list(model.config.label2id.keys())
     explanation_class_choice = st.sidebar.selectbox(
