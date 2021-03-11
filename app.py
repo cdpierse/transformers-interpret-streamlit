@@ -1,7 +1,12 @@
+import gc
+import os
+
 import pandas as pd
+import psutil
 import streamlit as st
 from PIL import Image
 from streamlit import components
+from streamlit.caching import clear_cache
 from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -11,8 +16,8 @@ from transformers import (
 from transformers_interpret import SequenceClassificationExplainer
 
 
-@st.cache(allow_output_mutation=True)
-def get_model_tokenizer(model_name):
+@st.cache(allow_output_mutation=True, suppress_st_warning=True, max_entries=1)
+def load_model(model_name):
     return (
         AutoModelForSequenceClassification.from_pretrained(model_name),
         AutoTokenizer.from_pretrained(model_name),
@@ -20,12 +25,13 @@ def get_model_tokenizer(model_name):
 
 
 def main():
-    st.set_page_config(layout="wide")
     st.title("Transformers Interpet Demo App")
 
     image = Image.open("./images/tight@1920x_transparent.png")
     st.sidebar.image(image, use_column_width=True)
-    st.sidebar.markdown("Check out the package on [Github](https://github.com/cdpierse/transformers-interpret)")
+    st.sidebar.markdown(
+        "Check out the package on [Github](https://github.com/cdpierse/transformers-interpret)"
+    )
     models = {
         "textattack/bert-base-uncased-rotten-tomatoes": "",
         "textattack/roberta-base-rotten-tomatoes": "",
@@ -38,12 +44,15 @@ def main():
         "MoritzLaurer/policy-distilbert-7d": "DistilBERT model finetuned to classify text into one of seven political categories.",
         "MoritzLaurer/covid-policy-roberta-21": "(Under active development ) RoBERTA model finetuned to identify COVID policy measure classes ",
         "mrm8488/bert-tiny-finetuned-sms-spam-detection": "Tiny bert model finetuned for spam detection. 0 == not spam, 1 == spam",
-        "lannelin/bert-imdb-1hidden": "Bert for IMBD with a single hidden layer"
+        "lannelin/bert-imdb-1hidden": "Bert for IMBD with a single hidden layer",
     }
     model_name = st.sidebar.selectbox(
         "Choose a classification model", list(models.keys())
     )
-    model, tokenizer = get_model_tokenizer(model_name)
+    model, tokenizer = load_model(model_name)
+    model.eval()
+    process = psutil.Process(os.getpid())
+    print("Memory usage:", process.memory_info().rss)
     cls_explainer = SequenceClassificationExplainer(
         "", model=model, tokenizer=tokenizer
     )
