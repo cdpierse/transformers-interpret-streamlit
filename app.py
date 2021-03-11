@@ -83,7 +83,7 @@ def main():
     with my_expander:
         st.json(models)
     text = st.text_area(
-        "Enter text to be interpreted", "I like you, I love you", height=400
+        "Enter text to be interpreted", "I like you, I love you", height=400, max_chars=500
     )
 
     if st.button("Interpret Text"):
