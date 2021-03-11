@@ -2,7 +2,6 @@ import gc
 import os
 
 import pandas as pd
-import psutil
 import streamlit as st
 from PIL import Image
 from streamlit import components
@@ -51,8 +50,6 @@ def main():
     )
     model, tokenizer = load_model(model_name)
     model.eval()
-    process = psutil.Process(os.getpid())
-    print("Memory usage:", process.memory_info().rss)
     cls_explainer = SequenceClassificationExplainer(
         "", model=model, tokenizer=tokenizer
     )
