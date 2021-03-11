@@ -43,7 +43,6 @@ def main():
         # "MoritzLaurer/policy-distilbert-7d": "DistilBERT model finetuned to classify text into one of seven political categories.",
         # "MoritzLaurer/covid-policy-roberta-21": "(Under active development ) RoBERTA model finetuned to identify COVID policy measure classes ",
         # "mrm8488/bert-tiny-finetuned-sms-spam-detection": "Tiny bert model finetuned for spam detection. 0 == not spam, 1 == spam",
-        "lannelin/bert-imdb-1hidden": "Bert for IMBD with a single hidden layer",
     }
     model_name = st.sidebar.selectbox(
         "Choose a classification model", list(models.keys())
@@ -53,6 +52,7 @@ def main():
     cls_explainer = SequenceClassificationExplainer(
         "", model=model, tokenizer=tokenizer
     )
+    cls_explainer.label2id = {"NEGATIVE": 0, "POSITIVE": 1}
     if cls_explainer.accepts_position_ids:
         emb_type_name = st.sidebar.selectbox(
             "Choose embedding type for attribution.", ["word", "position"]
