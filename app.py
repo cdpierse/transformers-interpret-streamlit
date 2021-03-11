@@ -33,8 +33,8 @@ def main():
     )
     models = {
         "textattack/bert-base-uncased-rotten-tomatoes": "",
-        "textattack/roberta-base-rotten-tomatoes": "",
         "textattack/distilbert-base-uncased-rotten-tomatoes": "",
+        # "textattack/roberta-base-rotten-tomatoes": "",
         # "mrm8488/bert-mini-finetuned-age_news-classification": "BERT-Mini finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
         # "nateraw/bert-base-uncased-ag-news": "BERT finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
         # "distilbert-base-uncased-finetuned-sst-2-english": "DistilBERT model finetuned on SST-2 sentiment analysis task. Predicts positive/negative sentiment.",
@@ -48,7 +48,7 @@ def main():
         "Choose a classification model", list(models.keys())
     )
     model, tokenizer = load_model(model_name)
-    model.config.label2id = {"NEGATIVE": 0, "POSITIVE": 1}
+    model.config.id2label = { 0:"NEGATIVE (0) ",  1: "POSITIVE (1)"}
     model.eval()
     cls_explainer = SequenceClassificationExplainer(
         "", model=model, tokenizer=tokenizer
