@@ -31,9 +31,10 @@ def main():
     st.sidebar.markdown(
         "Check out the package on [Github](https://github.com/cdpierse/transformers-interpret)"
     )
+    st.info("Due to limited resources only one model is available. Run this [app locally](https://github.com/cdpierse/transformers-interpret-streamlit) to run the full selection of available models. ")
     models = {
         "textattack/bert-base-uncased-rotten-tomatoes": "",
-        "textattack/distilbert-base-uncased-rotten-tomatoes": "",
+        # "textattack/distilbert-base-uncased-rotten-tomatoes": "",
         # "textattack/roberta-base-rotten-tomatoes": "",
         # "mrm8488/bert-mini-finetuned-age_news-classification": "BERT-Mini finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
         # "nateraw/bert-base-uncased-ag-news": "BERT finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
@@ -48,7 +49,8 @@ def main():
         "Choose a classification model", list(models.keys())
     )
     model, tokenizer = load_model(model_name)
-    model.config.id2label = { 0:"NEGATIVE (0) ",  1: "POSITIVE (1)"}
+    if model_name.startswith("textattack/"):
+        model.config.id2label = { 0:"NEGATIVE (0) ",  1: "POSITIVE (1)"}
     model.eval()
     cls_explainer = SequenceClassificationExplainer(
         "", model=model, tokenizer=tokenizer
