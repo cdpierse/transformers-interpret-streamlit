@@ -48,11 +48,11 @@ def main():
         "Choose a classification model", list(models.keys())
     )
     model, tokenizer = load_model(model_name)
+    model.config.label2id = {"NEGATIVE": 0, "POSITIVE": 1}
     model.eval()
     cls_explainer = SequenceClassificationExplainer(
         "", model=model, tokenizer=tokenizer
     )
-    cls_explainer.label2id = {"NEGATIVE": 0, "POSITIVE": 1}
     if cls_explainer.accepts_position_ids:
         emb_type_name = st.sidebar.selectbox(
             "Choose embedding type for attribution.", ["word", "position"]
