@@ -36,9 +36,11 @@ def main():
     st.info(
         "Due to limited resources only one model is available. Run this [app locally](https://github.com/cdpierse/transformers-interpret-streamlit) to run the full selection of available models. "
     )
+
+    # uncomment the options below to test out the app with a variety of classification models.
     models = {
-        "textattack/bert-base-uncased-rotten-tomatoes": "",
-        # "textattack/distilbert-base-uncased-rotten-tomatoes": "",
+        "textattack/distilbert-base-uncased-rotten-tomatoes": "",
+        # "textattack/bert-base-uncased-rotten-tomatoes": "",
         # "textattack/roberta-base-rotten-tomatoes": "",
         # "mrm8488/bert-mini-finetuned-age_news-classification": "BERT-Mini finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
         # "nateraw/bert-base-uncased-ag-news": "BERT finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
