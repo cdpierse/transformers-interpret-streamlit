@@ -14,6 +14,8 @@ from transformers import (
 )
 from transformers_interpret import SequenceClassificationExplainer
 
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 
 @st.cache(allow_output_mutation=True, suppress_st_warning=True, max_entries=1)
 def load_model(model_name):
@@ -31,7 +33,9 @@ def main():
     st.sidebar.markdown(
         "Check out the package on [Github](https://github.com/cdpierse/transformers-interpret)"
     )
-    st.info("Due to limited resources only one model is available. Run this [app locally](https://github.com/cdpierse/transformers-interpret-streamlit) to run the full selection of available models. ")
+    st.info(
+        "Due to limited resources only one model is available. Run this [app locally](https://github.com/cdpierse/transformers-interpret-streamlit) to run the full selection of available models. "
+    )
     models = {
         "textattack/bert-base-uncased-rotten-tomatoes": "",
         # "textattack/distilbert-base-uncased-rotten-tomatoes": "",
@@ -50,7 +54,7 @@ def main():
     )
     model, tokenizer = load_model(model_name)
     if model_name.startswith("textattack/"):
-        model.config.id2label = { 0:"NEGATIVE (0) ",  1: "POSITIVE (1)"}
+        model.config.id2label = {0: "NEGATIVE (0) ", 1: "POSITIVE (1)"}
     model.eval()
     cls_explainer = SequenceClassificationExplainer(
         "", model=model, tokenizer=tokenizer
