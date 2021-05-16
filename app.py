@@ -91,20 +91,20 @@ def main():
         st.text("Output")
         with st.spinner("Intepreting your text (This may take some time)"):
             if explanation_class_choice != "predicted":
-                attr = cls_explainer(
+                word_attributions = cls_explainer(
                     text,
                     class_name=explanation_class_choice,
                     embedding_type=emb_type_num,
                 )
             else:
-                attr = cls_explainer(text, embedding_type=emb_type_num)
+                word_attributions = cls_explainer(text, embedding_type=emb_type_num)
 
-        if attr:
+        if word_attributions:
             word_attributions_expander = st.beta_expander(
                 "Click here for raw word attributions"
             )
             with word_attributions_expander:
-                st.json(attr.word_attributions)
+                st.json(word_attributions)
             components.v1.html(
                 cls_explainer.visualize()._repr_html_(), scrolling=True, height=350
             )
