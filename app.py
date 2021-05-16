@@ -39,7 +39,7 @@ def main():
 
     # uncomment the options below to test out the app with a variety of classification models.
     models = {
-        "textattack/distilbert-base-uncased-rotten-tomatoes": "",
+        # "textattack/distilbert-base-uncased-rotten-tomatoes": "",
         # "textattack/bert-base-uncased-rotten-tomatoes": "",
         # "textattack/roberta-base-rotten-tomatoes": "",
         # "mrm8488/bert-mini-finetuned-age_news-classification": "BERT-Mini finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
@@ -58,9 +58,7 @@ def main():
     if model_name.startswith("textattack/"):
         model.config.id2label = {0: "NEGATIVE (0) ", 1: "POSITIVE (1)"}
     model.eval()
-    cls_explainer = SequenceClassificationExplainer(
-        "", model=model, tokenizer=tokenizer
-    )
+    cls_explainer = SequenceClassificationExplainer(model=model, tokenizer=tokenizer)
     if cls_explainer.accepts_position_ids:
         emb_type_name = st.sidebar.selectbox(
             "Choose embedding type for attribution.", ["word", "position"]
@@ -83,7 +81,10 @@ def main():
     with my_expander:
         st.json(models)
     text = st.text_area(
-        "Enter text to be interpreted", "I like you, I love you", height=400, max_chars=500
+        "Enter text to be interpreted",
+        "I like you, I love you",
+        height=400,
+        max_chars=500,
     )
 
     if st.button("Interpret Text"):
