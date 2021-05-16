@@ -34,7 +34,7 @@ def main():
         "Check out the package on [Github](https://github.com/cdpierse/transformers-interpret)"
     )
     st.info(
-        "Due to limited resources only one model is available. Run this [app locally](https://github.com/cdpierse/transformers-interpret-streamlit) to run the full selection of available models. "
+        "Due to limited resources only low memory modes are available. Run this [app locally](https://github.com/cdpierse/transformers-interpret-streamlit) to run the full selection of available models. "
     )
 
     # uncomment the options below to test out the app with a variety of classification models.
