@@ -81,12 +81,12 @@ def main():
     with my_expander:
         st.json(models)
 
-    st.info("Max char limit of 500 (memory management)")
+    st.info("Max char limit of 350 (memory management)")
     text = st.text_area(
         "Enter text to be interpreted",
         "I like you, I love you",
         height=400,
-        max_chars=500,
+        max_chars=350,
     )
 
     if st.button("Interpret Text"):
