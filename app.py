@@ -1,20 +1,25 @@
+import asyncio
 import gc
+import logging
 import os
 
 import pandas as pd
+import psutil
 import streamlit as st
 from PIL import Image
 from streamlit import components
 from streamlit.caching import clear_cache
-from transformers import (
-    AutoModelForSequenceClassification,
-    AutoTokenizer,
-    PreTrainedModel,
-    PreTrainedTokenizer,
-)
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from transformers_interpret import SequenceClassificationExplainer
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
+logging.basicConfig(
+    format="%(asctime)s : %(levelname)s : %(message)s", level=logging.INFO
+)
+
+
+def print_memory_usage():
+    logging.info(f"RAM memory % used: {psutil.virtual_memory()[2]}")
 
 
 @st.cache(allow_output_mutation=True, suppress_st_warning=True, max_entries=1)
@@ -26,6 +31,7 @@ def load_model(model_name):
 
 
 def main():
+
     st.title("Transformers Interpet Demo App")
 
     image = Image.open("./images/tight@1920x_transparent.png")
@@ -90,6 +96,8 @@ def main():
     )
 
     if st.button("Interpret Text"):
+        print_memory_usage()
+
         st.text("Output")
         with st.spinner("Intepreting your text (This may take some time)"):
             if explanation_class_choice != "predicted":
