@@ -1,5 +1,5 @@
 streamlit==0.82.0
-transformers_interpret>=0.3.1
+transformers_interpret>=0.5.1
 pandas==1.0.3
 transformers==4.3.2
 psutil==5.7.0
