@@ -40,7 +40,7 @@ def main():
         "Check out the package on [Github](https://github.com/cdpierse/transformers-interpret)"
     )
     st.info(
-        "Due to limited resources only low memory modes are available. Run this [app locally](https://github.com/cdpierse/transformers-interpret-streamlit) to run the full selection of available models. "
+        "Due to limited resources only low memory models are available. Run this [app locally](https://github.com/cdpierse/transformers-interpret-streamlit) to run the full selection of available models. "
     )
 
     # uncomment the options below to test out the app with a variety of classification models.
@@ -87,12 +87,12 @@ def main():
     with my_expander:
         st.json(models)
 
-    st.info("Max char limit of 350 (memory management)")
+    # st.info("Max char limit of 350 (memory management)")
     text = st.text_area(
         "Enter text to be interpreted",
         "I like you, I love you",
         height=400,
-        max_chars=650,
+        max_chars=850,
     )
 
     if st.button("Interpret Text"):
