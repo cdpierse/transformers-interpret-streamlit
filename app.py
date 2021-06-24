@@ -99,15 +99,18 @@ def main():
         print_memory_usage()
 
         st.text("Output")
-        with st.spinner("Intepreting your text (This may take some time)"):
+        with st.spinner("Interpreting your text (This may take some time)"):
             if explanation_class_choice != "predicted":
                 word_attributions = cls_explainer(
                     text,
                     class_name=explanation_class_choice,
                     embedding_type=emb_type_num,
+                    internal_batch_size=2,
                 )
             else:
-                word_attributions = cls_explainer(text, embedding_type=emb_type_num)
+                word_attributions = cls_explainer(
+                    text, embedding_type=emb_type_num, internal_batch_size=2
+                )
 
         if word_attributions:
             word_attributions_expander = st.beta_expander(
