@@ -52,8 +52,8 @@ def main():
         # "nateraw/bert-base-uncased-ag-news": "BERT finetuned on AG News dataset. Predicts news class (sports/tech/business/world) of text.",
         "distilbert-base-uncased-finetuned-sst-2-english": "DistilBERT model finetuned on SST-2 sentiment analysis task. Predicts positive/negative sentiment.",
         # "ProsusAI/finbert": "BERT model finetuned to predict sentiment of financial text. Finetuned on Financial PhraseBank data. Predicts positive/negative/neutral.",
-        # "sampathkethineedi/industry-classification": "DistilBERT Model to classify a business description into one of 62 industry tags.",
-        # "MoritzLaurer/policy-distilbert-7d": "DistilBERT model finetuned to classify text into one of seven political categories.",
+        "sampathkethineedi/industry-classification": "DistilBERT Model to classify a business description into one of 62 industry tags.",
+        "MoritzLaurer/policy-distilbert-7d": "DistilBERT model finetuned to classify text into one of seven political categories.",
         # # "MoritzLaurer/covid-policy-roberta-21": "(Under active development ) RoBERTA model finetuned to identify COVID policy measure classes ",
         # "mrm8488/bert-tiny-finetuned-sms-spam-detection": "Tiny bert model finetuned for spam detection. 0 == not spam, 1 == spam",
     }
@@ -92,7 +92,7 @@ def main():
         "Enter text to be interpreted",
         "I like you, I love you",
         height=400,
-        max_chars=350,
+        max_chars=650,
     )
 
     if st.button("Interpret Text"):
